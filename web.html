@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Landing Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;  
+    }
+
+    body {
+      line-height: 1.6;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: transparent;
+      padding: 15px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: #222;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.3);
+      padding: 10px 40px;
+    }
+
+    nav .logo {
+      color: #fff;
+      font-size: 22px;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    nav .logo:hover {
+      transform: scale(1.1);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      padding: 5px 10px;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+
+    nav ul li a:hover {
+      background: white;
+      color: #222;
+      border-radius: 4px;
+      transform: translateY(-3px);
+    }
+
+    .hero {
+      height: 100vh;
+      background: url('https://picsum.photos/1920/1080?blur=2') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .hero h1 {
+      font-size: 50px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+    }
+
+    section {
+      padding: 100px 50px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section:nth-child(even) {
+      background: #f4f4f4;
+    }
+
+    section:nth-child(odd) {
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background: #222;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 15px;
+        border-radius: 5px;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+        font-size: 24px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="logo">MyWebsite</div>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <ul id="menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="home">
+    <div>
+      <h1>Welcome to My Landing Page</h1>
+      <p>Responsive Design with Interactive Navbar</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel lorem eget nunc.</p>
+  </section>
+
+  <section id="services">
+    <h2>Services</h2>
+    <p>We provide the best services in web development, design, and digital solutions.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Get in touch via email or phone. We'd love to hear from you!</p>
+  </section>
+
+  <script>
+    window.addEventListener("scroll", function() {
+      let navbar = document.getElementById("navbar");
+      navbar.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    function toggleMenu() {
+      let menu = document.getElementById("menu");
+      menu.classList.toggle("show");
+    }
+
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+
+</body>
+</html>
